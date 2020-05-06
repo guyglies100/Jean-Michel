@@ -1,6 +1,5 @@
 # Work with Python 3.6
 import discord
-import scipy.io.wavfile as wav
 import os.path
 from os import path
 import functions as func
