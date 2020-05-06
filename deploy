@@ -1,7 +1,7 @@
 sudo git clean -f -x
 sudo git reset --hard
 sudo git pull git@github.com:guyglies100/Jean-Michel.git
-sudo docker stop jeanmichel || true
-sudo docker rm jeanmichel || true
-sudo docker build -t jeanmichel jeanmichel
-sudo docker run -d --name jeanmichel jeanmichel
+sudo docker stop jeanmichelcontainer || true
+sudo docker rm jeanmichelcontainer || true
+sudo docker build -t jeanmichel .
+sudo docker run -d --name jeanmichelcontainer jeanmichel
