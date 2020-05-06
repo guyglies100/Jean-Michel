@@ -101,7 +101,7 @@ async def on_message(message):
 			await channel.send("T'es même pas connecté... Git Gud!")
 		else:
 			message_content = message.content.lower()
-			audio_track = "E:/Bot/Jean-Michel/Audio/" + \
+			audio_track = "./Audio/" + \
 				message_content.replace('!play ', '')+".mp3"
 			if(path.exists(audio_track)):
 				voice_channel = client.get_channel(
@@ -151,7 +151,7 @@ async def on_ready():
 			discord.opus.load_opus('./Opus/libopus-0.dll')
 		else:
 			print("Try load Unix Opus")
-			discord.opus.load_opus('libopus.so.1')
+			discord.opus.load_opus('libopus.so')
 		print("discord.opus.is_loaded() = ", discord.opus.is_loaded())
 		#await channel.send("Jean-Michel is back Fuckers!")
 		thread_for_notes.start()
