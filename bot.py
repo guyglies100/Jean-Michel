@@ -147,9 +147,11 @@ async def on_ready():
 	channel = client.get_channel(bot_control_channel_id)
 	try:
 		if(os.name == 'nt'):
+			print("Try load Windows Opus")
 			discord.opus.load_opus('./Opus/libopus-0.dll')
 		else:
-			discord.opus.load_opus('opus')
+			print("Try load Unix Opus")
+			discord.opus.load_opus('libopus.so.1')
 		print("discord.opus.is_loaded() = ", discord.opus.is_loaded())
 		#await channel.send("Jean-Michel is back Fuckers!")
 		thread_for_notes.start()
