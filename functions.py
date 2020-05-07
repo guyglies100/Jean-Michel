@@ -39,3 +39,12 @@ def WeirdGIFpourPhil():
 	gifs.append("https://tenor.com/view/vldl-viva-la-dirt-league-bro-brother-pal-gif-16079539")
 	r = random.randint(0, len(gifs)-1)
 	return gifs[r]
+
+def log(msg):
+	f= open("bot.log","a")
+	f.write(str(msg) + "\n")
+	f.close()
+
+def init_log():
+	f= open("bot.log","w")
+	f.close()

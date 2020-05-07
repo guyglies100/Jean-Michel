@@ -27,7 +27,7 @@ def aviser_les_boys_sur_discord(nouvelles_notes, loop):
 	if(nouvelles_notes != []):
 		msg = "On a une ou des notes de sorties pour les cours suivant \n"
 		msg += func.CreateListMessage(nouvelles_notes)  
-		print("New note found")
+		func.log("New note found")
 		try:
 			loop.run_until_complete(sendMessage(new_note_channel_id, msg))
 			loop.close()   
@@ -82,9 +82,7 @@ async def on_message(message):
 		return
 	channel = message.channel
 	if message.content.startswith('!hello'):
-		msg = 'Hello {0.author.mention}'.format(message)
-		print(channel)
-		print(channel.id)
+		msg = 'Hello {0.author.mention}'.format(message)	
 		await channel.send(msg)
 	#elif message.content.startswith('!disconnect'):
 	#    if(message.author.id is admin):
@@ -133,7 +131,7 @@ async def on_message(message):
 def signal_handler(sig, frame):
 	loop = asyncio.get_event_loop()
 	try:
-		print("Peace!")
+		func.log("Peace!")
 		thread_for_notes.close()
 		loop.run_until_complete(client.close())
 		loop.close()
@@ -143,22 +141,23 @@ def signal_handler(sig, frame):
 
 @client.event
 async def on_ready():
-	print('Logged in as ' + client.user.name)
+	func.log('Logged in as ' + client.user.name)
 	channel = client.get_channel(bot_control_channel_id)
 	try:
 		if(os.name == 'nt'):
-			print("Try load Windows Opus")
+			func.log("Try load Windows Opus")
 			discord.opus.load_opus('./Opus/libopus-0.dll')
 		else:
-			print("Try load Unix Opus")
+			func.log("Try load Unix Opus")
 			discord.opus.load_opus('libopus.so')
-		print("discord.opus.is_loaded() = ", discord.opus.is_loaded())
-		#await channel.send("Jean-Michel is back Fuckers!")
+		func.log("discord.opus.is_loaded() = ", discord.opus.is_loaded())
+		#await channel.send("Jean-Michel is back!")
 		thread_for_notes.start()
 		signal.signal(signal.SIGINT, signal_handler)
-		print("Jean-Michel is back online")
+		func.log("Jean-Michel is back online")
 	except:
-		print("discord.opus.is_loaded() = ", discord.opus.is_loaded())
+		func.log("discord.opus.is_loaded() = ", discord.opus.is_loaded())
 		await client.close()
 
+func.init_log()
 client.run(TOKEN)
