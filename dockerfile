@@ -4,8 +4,12 @@ COPY . /
 
 RUN apt-get update
 
+RUN apt-get -y install ffmpeg
 RUN apt-get -y install libopus-dev
+RUN apt-get -y install libopus0
+RUN apt-get -y install opus-tools
 
-RUN pip install scipy discord asyncio requests
+RUN pip install -U discord.py[voice]
+RUN pip install scipy asyncio requests
 
 CMD [ "python", "./bot.py" ]
