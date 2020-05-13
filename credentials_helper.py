@@ -18,3 +18,6 @@ def get_bot_control_id():
 
 def get_new_notes_id():
 	return enc.decodeJsonPickle("creds.json")['new-note']
+
+def get_timer_channel_id():
+	return enc.decodeJsonPickle("creds.json")['timer-channel']

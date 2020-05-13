@@ -1,5 +1,6 @@
 from os import listdir
 from os.path import isfile, join
+from os import path
 import random
 
 #Guillaume Dumont, 2020
@@ -48,3 +49,19 @@ def log(msg):
 def init_log():
 	f= open("bot.log","w")
 	f.close()
+
+def print_to_csv(work_tuple):
+	if(not path.exists("./Work.csv")):
+		f= open("Work.csv","w")
+		f.write("member, start, finish, desc\n")
+		f.close()
+	f= open("Work.csv","a")
+	len_tupple = len(work_tuple)
+	for x in range(len_tupple):
+		f.write(str(work_tuple[x]))
+		if(x != len_tupple-1):
+			f.write(", ")
+	f.write('\n')
+	f.close()
+	
+	

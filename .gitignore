@@ -131,3 +131,4 @@ dmypy.json
 *.pkl
 Audio/*
 *.pem
+Work.csv

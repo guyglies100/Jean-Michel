@@ -10,13 +10,14 @@ import threading
 import asyncio
 import signal
 import credentials_helper as creds
-
+from datetime import datetime
 #Guillaume Dumont, 2020
 
 TOKEN = creds.get_token()
 client = discord.Client()
 bot_control_channel_id = creds.get_bot_control_id()
 new_note_channel_id = creds.get_new_notes_id() 
+work_time_dictionary  = dict()
 
 async def sendMessage(id_channel, msg):
 	channel = client.get_channel(id_channel)
@@ -84,6 +85,25 @@ async def on_message(message):
 	if message.content.startswith('!hello'):
 		msg = 'Hello {0.author.mention}'.format(message)	
 		await channel.send(msg)
+	elif message.content.startswith('!work'):
+		func.log(message.author)
+		if message.author in work_time_dictionary:
+			old_tuple = work_time_dictionary[message.author]
+			work = message.content.replace('!work ', '')
+			work_time_dictionary[message.author] = (old_tuple[0], old_tuple[1], old_tuple[2], work)
+			await channel.send("C'est noté")
+		else:
+			await channel.send("T'es pas en session de travail présentement")
+	elif message.content.startswith('!csv'):
+		if(path.exists("Work.csv")):
+			file_to_send = discord.File(open("Work.csv","rb"))
+			await channel.send("Keep up the good work", file=file_to_send)
+			file_to_send.close()
+		else:
+			await channel.send("Aucun csv n'a été créé pour le moment")
+	elif message.content.startswith('!what is my purpose'):
+		msg = 'https://www.youtube.com/watch?v=wqzLoXjFT34'.format(message)	
+		await channel.send(msg)
 	#elif message.content.startswith('!disconnect'):
 	#    if(message.author.id is admin):
 	#        try:
@@ -123,7 +143,9 @@ async def on_message(message):
 	elif message.content.startswith('!help'):
 		await channel.send("You must be desperate to come to me for help...")
 		actionList = ['!hello si tu te cherches un ami',
-					'!play _nom de piste voulu_', '!list pour voir les pistes disponibles']
+					'!play _nom de piste voulu_', '!list pour voir les pistes disponibles',
+					'!work pour décrire ta session de travail, si elle existe',
+					'!csv envoye le csv de travail']
 		await channel.send(func.CreateListMessage(actionList))
 	elif message.content.startswith('!saucemepls'):
 		await channel.send(func.WeirdGIFpourPhil())
@@ -150,14 +172,37 @@ async def on_ready():
 		else:
 			func.log("Try load Unix Opus")
 			discord.opus.load_opus('libopus.so')
-		func.log("discord.opus.is_loaded() = ", discord.opus.is_loaded())
+		func.log("discord.opus.is_loaded() = " + str(discord.opus.is_loaded()))
 		#await channel.send("Jean-Michel is back!")
 		thread_for_notes.start()
 		signal.signal(signal.SIGINT, signal_handler)
 		func.log("Jean-Michel is back online")
 	except:
-		func.log("discord.opus.is_loaded() = ", discord.opus.is_loaded())
+		func.log("discord.opus.is_loaded() = " + str(discord.opus.is_loaded()))
 		await client.close()
+
+@client.event
+async def on_voice_state_update(member, before, after):
+	if member == client.user or before.channel == after.channel:
+		return
+
+	timer_channel_id = creds.get_timer_channel_id()
+	before_id = 0 if before.channel == None else before.channel.id
+	after_id = 0 if after.channel == None else after.channel.id
+	
+	if(after_id == timer_channel_id):
+		#user connected
+		work_time_dictionary[member] = (member, datetime.now(), None, "")
+	if(before_id == timer_channel_id):
+		if member in work_time_dictionary:
+			old_tuple = work_time_dictionary[member]
+			work_time_dictionary[member] = (member, old_tuple[1], datetime.now(), old_tuple[3])
+			func.print_to_csv(work_time_dictionary[member])
+			work_time_dictionary.pop(member)
+
+		func.log(member);
+		func.log(before);
+		func.log(after);
 
 func.init_log()
 client.run(TOKEN)
