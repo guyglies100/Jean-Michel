@@ -155,9 +155,13 @@ async def on_message(message):
 	elif message.content.startswith('!help'):
 		await channel.send("You must be desperate to come to me for help...")
 		actionList = ['!hello si tu te cherches un ami',
-					'!play _nom de piste voulu_', '!list pour voir les pistes disponibles',
+					'!play _nom de piste voulu_', 
+					'!list pour voir les pistes disponibles',
 					'!work pour décrire ta session de travail, si elle existe',
-					'!csv envoye le csv de travail']
+					'!csv envoye le csv de travail',
+					'!version pour voir la version déployée',
+					'!dashboard pour avoir le nombre d\'heure des membres de UNC-I'
+					]
 		await channel.send(func.CreateListMessage(actionList))
 	elif message.content.startswith('!saucemepls'):
 		await channel.send(func.WeirdGIFpourPhil())
