@@ -5,6 +5,7 @@ from os import path
 import functions as func
 import pickle_helper as pkl
 import get_nouvelle_note as note
+import dashboard
 import time
 import threading
 import asyncio
@@ -99,6 +100,12 @@ async def on_message(message):
 			file_to_send = discord.File(open("Work.csv","rb"))
 			await channel.send("Keep up the good work", file=file_to_send)
 			file_to_send.close()
+		else:
+			await channel.send("Aucun csv n'a été créé pour le moment")
+	elif message.content.startswith('!dashboard'):
+		if(path.exists("Work.csv")):
+			await channel.send("Voici les statistiques calculées par JM")
+			await channel.send(func.CreateListMessage(dashboard.dashboard()))
 		else:
 			await channel.send("Aucun csv n'a été créé pour le moment")
 	elif message.content.startswith('!what is my purpose'):

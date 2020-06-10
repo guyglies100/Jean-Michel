@@ -17,7 +17,7 @@ def get_grille_de_note(username, password):
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
     'Content-Type': 'application/x-www-form-urlencoded',
   }
-  note_url = "https://www.gel.usherbrooke.ca/grille-notes/api/grid/statistics?trimester=E20"
+  note_url = "https://www.gel.usherbrooke.ca/grille-notes/?trimestre=e20"
   note_payload = {}
   note_headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36',
