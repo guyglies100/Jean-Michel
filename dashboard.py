@@ -11,6 +11,7 @@ def print_dict(dictionary):
 	print_str = []
 	for key in dictionary:
 		print_str.append(str(key)+' -> '+time_delta_format(dictionary[key]))
+	return print_str
 
 def dashboard():
 	work_time_dictionary  = dict()
