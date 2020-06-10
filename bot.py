@@ -96,14 +96,14 @@ async def on_message(message):
 		else:
 			await channel.send("T'es pas en session de travail présentement")
 	elif message.content.startswith('!csv'):
-		if(path.exists("Work.csv")):
-			file_to_send = discord.File(open("Work.csv","rb"))
+		if(path.exists("./Persistence/Work.csv")):
+			file_to_send = discord.File(open("./Persistence/Work.csv","rb"))
 			await channel.send("Keep up the good work", file=file_to_send)
 			file_to_send.close()
 		else:
 			await channel.send("Aucun csv n'a été créé pour le moment")
 	elif message.content.startswith('!dashboard'):
-		if(path.exists("Work.csv")):
+		if(path.exists("./Persistence/Work.csv")):
 			await channel.send("Voici les statistiques calculées par JM")
 			await channel.send(func.CreateListMessage(dashboard.dashboard()))
 		else:

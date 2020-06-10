@@ -51,11 +51,11 @@ def init_log():
 	f.close()
 
 def print_to_csv(work_tuple):
-	if(not path.exists("./Work.csv")):
-		f= open("Work.csv","w")
+	if(not path.exists("./Persistence/Work.csv")):
+		f= open("./Persistence/Work.csv","w")
 		f.write("member, start, finish, desc\n")
 		f.close()
-	f= open("Work.csv","a")
+	f= open("./Persistence/Work.csv","a")
 	len_tupple = len(work_tuple)
 	for x in range(len_tupple):
 		f.write(str(work_tuple[x]))

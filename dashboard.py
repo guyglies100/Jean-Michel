@@ -14,7 +14,7 @@ def print_dict(dictionary):
 
 def dashboard():
 	work_time_dictionary  = dict()
-	f= open("./Work.csv","r")
+	f= open("./Persistence/Work.csv","r")
 	Lines = f.readlines()[1:]
 	for line in Lines:
 		array = line.split(", ")
