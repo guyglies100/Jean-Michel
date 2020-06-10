@@ -2,6 +2,7 @@ from os import listdir
 from os.path import isfile, join
 from os import path
 import random
+import subprocess
 
 #Guillaume Dumont, 2020
 
@@ -64,4 +65,5 @@ def print_to_csv(work_tuple):
 	f.write('\n')
 	f.close()
 	
-	
+def get_version():
+    return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()

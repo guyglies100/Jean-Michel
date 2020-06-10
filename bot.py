@@ -108,6 +108,11 @@ async def on_message(message):
 			await channel.send(func.CreateListMessage(dashboard.dashboard()))
 		else:
 			await channel.send("Aucun csv n'a été créé pour le moment")
+	elif message.content.startswith('!version'):
+		try:
+			await channel.send("JM est présentement au commit" + func.get_version())
+		except:
+			await channel.send("Git n'est pas disponible...")
 	elif message.content.startswith('!what is my purpose'):
 		msg = 'https://www.youtube.com/watch?v=wqzLoXjFT34'.format(message)	
 		await channel.send(msg)
