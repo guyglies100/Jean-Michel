@@ -1,4 +1,4 @@
 sudo docker stop jeanmichelcontainer || true
 sudo docker rm jeanmichelcontainer || true
 sudo docker build -t jeanmichel .
-sudo docker run -d --name jeanmichelcontainer jeanmichel
+sudo docker run -d -v /home/ubuntu/JmPersistence:Persistence --name jeanmichelcontainer jeanmichel
