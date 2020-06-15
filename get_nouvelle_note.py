@@ -1,7 +1,7 @@
 from requests import Request, Session
 import json
 from time import sleep
-
+import functions as fct
 refresh_time_in_sec =120
 
 #Étienne Lepage-Lepitre
@@ -33,6 +33,8 @@ def get_grille_de_note(username, password):
   return json.loads(note_resp.text.encode('utf8'))
 
 def check_for_nouvelles_notes(grille_actuelle, grille_ancienne):
+  fct.log(grille_actuelle)
+  fct.log(grille_ancienne)
   nouvelles_notes = []
   for index_cours, cours in enumerate(grille_actuelle):
     for index_evaluation, evaluation in enumerate(cours["evaluations"]):

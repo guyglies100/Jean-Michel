@@ -3,6 +3,8 @@ from os.path import isfile, join
 from os import path
 import random
 import subprocess
+from datetime import datetime
+from datetime import timedelta
 
 #Guillaume Dumont, 2020
 
@@ -67,3 +69,45 @@ def print_to_csv(work_tuple):
 	
 def get_version():
     return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()
+
+
+#Expected XXHXXMin
+def handle_time_message(msg):
+	lower_msg = msg.lower()
+	index_hours = lower_msg.find('h')
+	hours = 0
+	minutes = 0
+	if(index_hours != -1):
+		hours = int(lower_msg[:index_hours])
+	
+
+	index_mins = lower_msg.find('m')
+	if(index_mins != -1):
+		minutes= int(msg[index_hours + 1:index_mins])
+	
+	print(hours)
+	print(minutes)
+	date = datetime.now()
+	date_with_delta = datetime.now()
+
+	if (hours > 0 or minutes > 0 ):
+		delta = timedelta(
+			minutes=minutes,
+			hours=hours
+		)
+		date_with_delta = date - delta
+	return date, date_with_delta
+
+def get_time_to_add_and_desc(msg):
+	msg_array = msg.split(' ', 1)
+	if(len(msg_array) != 2):
+		raise ValueError("Format non valide, devrait être !commande XXHXXM decription")
+	try:
+		date, date_with_delta = handle_time_message(msg_array[0])
+	except:
+		raise ValueError("Format non valide, devrait être !commande XXHXXM decription")		
+	desc = msg_array[1]
+	if(date == date_with_delta):
+		raise ValueError("Format non valide, devrait être !commande XXHXXM decription")
+	return date, date_with_delta, desc
+

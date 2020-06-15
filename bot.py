@@ -40,6 +40,7 @@ def aviser_les_boys_sur_discord(nouvelles_notes, loop):
 class NoteThread(threading.Thread):
 	def __init__(self, threadID, name):
 		threading.Thread.__init__(self)
+		func.log("Starting NoteThread "+ name)
 		self.loop = asyncio.get_event_loop()
 		self.threadID = threadID
 		self.name = name
@@ -48,15 +49,22 @@ class NoteThread(threading.Thread):
 		signal.signal(signal.SIGINT, self.exit)
 
 	def close(self):
+		func.log("Closing NoteThread "+ self.name)
 		self.exit = True
 
 	def run(self):
+		func.log("Running NoteThread "+ self.name)
 		try:
+			func.log("pkl.load_obj('grille')")
 			self.grille_ancienne = pkl.load_obj("grille")
 		except:
+			func.log("except")
 			pass
+		func.log("Running NoteThread suite "+ self.name)
 		while(not self.exit):
+			func.log("boucle")
 			grille_actuelle = note.get_grille_de_note(creds.get_username(), creds.get_password())
+			func.log(grille_actuelle)
 			if(self.grille_ancienne == None):
 				self.grille_ancienne = grille_actuelle
 				pkl.save_obj(self.grille_ancienne, "grille" )
@@ -116,6 +124,16 @@ async def on_message(message):
 	elif message.content.startswith('!what is my purpose'):
 		msg = 'https://www.youtube.com/watch?v=wqzLoXjFT34'.format(message)	
 		await channel.send(msg)
+	elif message.content.startswith('!time'):
+		work = message.content.replace('!time ', '')
+		try:
+			date, date_delta, desc = func.get_time_to_add_and_desc(work)
+			tuple_time = (message.author, date_delta, date, "MANUAL_TIME["+desc+"]")
+			func.print_to_csv(tuple_time)
+			await channel.send("Temps ajouté!")			
+		except ValueError as err:
+			await channel.send("Format non valide, devrait être !commande XXHXXM decription")			
+		
 	#elif message.content.startswith('!disconnect'):
 	#    if(message.author.id is admin):
 	#        try:
