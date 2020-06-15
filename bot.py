@@ -132,7 +132,7 @@ async def on_message(message):
 			func.print_to_csv(tuple_time)
 			await channel.send("Temps ajouté!")			
 		except ValueError as err:
-			await channel.send("Format non valide, devrait être !commande XXHXXM decription")			
+			await channel.send("Format non valide, devrait être !commande XXHXXM description")			
 		
 	#elif message.content.startswith('!disconnect'):
 	#    if(message.author.id is admin):
@@ -178,7 +178,8 @@ async def on_message(message):
 					'!work pour décrire ta session de travail, si elle existe',
 					'!csv envoye le csv de travail',
 					'!version pour voir la version déployée',
-					'!dashboard pour avoir le nombre d\'heure des membres de UNC-I'
+					'!dashboard pour avoir le nombre d\'heure des membres de UNC-I',
+					'!time pour ajouter manuellement du temps de travail, devrait être !time XXHXXM description'
 					]
 		await channel.send(func.CreateListMessage(actionList))
 	elif message.content.startswith('!saucemepls'):

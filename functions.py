@@ -101,13 +101,13 @@ def handle_time_message(msg):
 def get_time_to_add_and_desc(msg):
 	msg_array = msg.split(' ', 1)
 	if(len(msg_array) != 2):
-		raise ValueError("Format non valide, devrait être !commande XXHXXM decription")
+		raise ValueError("Format non valide, devrait être !commande XXHXXM description")
 	try:
 		date, date_with_delta = handle_time_message(msg_array[0])
 	except:
-		raise ValueError("Format non valide, devrait être !commande XXHXXM decription")		
+		raise ValueError("Format non valide, devrait être !commande XXHXXM description")		
 	desc = msg_array[1]
 	if(date == date_with_delta):
-		raise ValueError("Format non valide, devrait être !commande XXHXXM decription")
+		raise ValueError("Format non valide, devrait être !commande XXHXXM description")
 	return date, date_with_delta, desc
 
