@@ -91,11 +91,11 @@ async def on_message(message):
 	if message.author == client.user:
 		return
 	channel = message.channel
+	author = str(message.author)
 	if message.content.startswith('!hello'):
 		msg = 'Hello {0.author.mention}'.format(message)	
 		await channel.send(msg)
-	elif message.content.startswith('!work'):
-		func.log(message.author)
+	elif message.content.startswith('!work') and func.is_work_member(author):
 		if message.author in work_time_dictionary:
 			old_tuple = work_time_dictionary[message.author]
 			work = message.content.replace('!work ', '')
@@ -103,14 +103,14 @@ async def on_message(message):
 			await channel.send("C'est noté")
 		else:
 			await channel.send("T'es pas en session de travail présentement")
-	elif message.content.startswith('!csv'):
+	elif message.content.startswith('!csv') and func.is_work_member(author):
 		if(path.exists("./Persistence/Work.csv")):
 			file_to_send = discord.File(open("./Persistence/Work.csv","rb"))
 			await channel.send("Keep up the good work", file=file_to_send)
 			file_to_send.close()
 		else:
 			await channel.send("Aucun csv n'a été créé pour le moment")
-	elif message.content.startswith('!dashboard'):
+	elif message.content.startswith('!dashboard') and func.is_work_member(author):
 		if(path.exists("./Persistence/Work.csv")):
 			await channel.send("Voici les statistiques calculées par JM")
 			await channel.send(func.CreateListMessage(dashboard.dashboard()))
@@ -121,10 +121,16 @@ async def on_message(message):
 			await channel.send("JM est présentement au commit: " + func.get_version())
 		except:
 			await channel.send("Git n'est pas disponible...")
+	elif message.content.startswith('!member'):
+		func.log(message.author)
+		if func.is_work_member(author):
+			await channel.send("Tu as accès aux fonctions de travail.")
+		else: 
+			await channel.send("Tu n'as pas accès aux fonctions de travail.")
 	elif message.content.startswith('!what is my purpose'):
 		msg = 'https://www.youtube.com/watch?v=wqzLoXjFT34'.format(message)	
 		await channel.send(msg)
-	elif message.content.startswith('!time'):
+	elif message.content.startswith('!time') and func.is_work_member(author):
 		work = message.content.replace('!time ', '')
 		try:
 			date, date_delta, desc = func.get_time_to_add_and_desc(work)
@@ -179,7 +185,8 @@ async def on_message(message):
 					'!csv envoye le csv de travail',
 					'!version pour voir la version déployée',
 					'!dashboard pour avoir le nombre d\'heure des membres de UNC-I',
-					'!time pour ajouter manuellement du temps de travail, devrait être !time XXHXXM description'
+					'!time pour ajouter manuellement du temps de travail, devrait être !time XXHXXM description',
+					'!member dit si tu es un membre de l\'équipe de travail'
 					]
 		await channel.send(func.CreateListMessage(actionList))
 	elif message.content.startswith('!saucemepls'):

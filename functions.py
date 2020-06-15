@@ -5,12 +5,12 @@ import random
 import subprocess
 from datetime import datetime
 from datetime import timedelta
-
+import credentials_helper as cred
 #Guillaume Dumont, 2020
 
 def GetFilesFromFolder(path):
 	onlyfiles = [f.replace(".mp3", "") for f in listdir(path) if isfile(join(path, f))]
-	return onlyfiles
+	return sorted(onlyfiles)
 
 def CreateListMessage(messageList):
 	msg = ">>> "
@@ -111,3 +111,6 @@ def get_time_to_add_and_desc(msg):
 		raise ValueError("Format non valide, devrait être !commande XXHXXM description")
 	return date, date_with_delta, desc
 
+def is_work_member(name):
+	log(cred.get_work_member())
+	return name in cred.get_work_member()

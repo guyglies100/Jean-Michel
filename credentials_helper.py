@@ -21,3 +21,6 @@ def get_new_notes_id():
 
 def get_timer_channel_id():
 	return enc.decodeJsonPickle("creds.json")['timer-channel']
+
+def get_work_member():
+	return enc.decodeJsonPickle("creds.json")['work-member']
