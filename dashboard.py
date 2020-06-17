@@ -5,7 +5,8 @@ def getTimeObj(string):
 	return datetime.strptime(string, '%Y-%m-%d %H:%M:%S.%f')
 
 def time_delta_format(timedelta):
-    return "Day: "+ str(timedelta.days)+ ", Heures: "+ str(timedelta.seconds//3600) +", Minutes: " + str((timedelta.seconds//60)%60)
+	hours = timedelta.days * 24 + timedelta.seconds//3600
+	return "Heures: "+ str(hours) +", Minutes: " + str((timedelta.seconds//60)%60)
 
 def print_dict(dictionary):
 	print_str = []
