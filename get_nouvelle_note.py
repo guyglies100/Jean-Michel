@@ -2,7 +2,6 @@ from requests import Request, Session
 import json
 from time import sleep
 import functions as fct
-import pickle_helper as pkl
 refresh_time_in_sec = 120
 
 #Étienne Lepage-Lepitre

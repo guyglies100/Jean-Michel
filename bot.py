@@ -31,10 +31,10 @@ def aviser_les_boys_sur_discord(nouvelles_notes, loop):
 		msg += func.CreateListMessage(nouvelles_notes)  
 		func.log("New note found")
 		try:
-			loop.run_until_complete(sendMessage(new_note_channel_id, msg))
-			loop.close()   
-			pass
-		except:
+			send_fut = asyncio.run_coroutine_threadsafe(sendMessage(new_note_channel_id, msg), loop)
+			send_fut.result()		
+		except Exception as ex:
+			print("Aviser les boys exception: " + ex.args[0])
 			pass
 
 class NoteThread(threading.Thread):
@@ -55,16 +55,13 @@ class NoteThread(threading.Thread):
 	def run(self):
 		func.log("Running NoteThread "+ self.name)
 		try:
-			func.log("pkl.load_obj('grille')")
 			self.grille_ancienne = pkl.load_obj("grille")
 		except:
-			func.log("except")
+			func.log("except while loading old grille")
 			pass
 		func.log("Running NoteThread suite "+ self.name)
 		while(not self.exit):
-			func.log("boucle")
 			grille_actuelle = note.get_grille_de_note(creds.get_username(), creds.get_password())
-			func.log(grille_actuelle)
 			if(self.grille_ancienne == None):
 				self.grille_ancienne = grille_actuelle
 				pkl.save_obj(self.grille_ancienne, "grille" )
