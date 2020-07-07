@@ -8,8 +8,8 @@ def main():
 	grille_ancienne = pkl.load_obj("grille")
 	for index_cours, cours in enumerate(grille_ancienne):
 		for index_evaluation, evaluation in enumerate(cours["evaluations"]):
-			if(evaluation["avg"] != None):
-				evaluation["avg"] = None
+			if(evaluation["score"] != None):
+				evaluation["score"] = None
 	with open('data.json', 'w') as outfile:
 		json.dump(grille_ancienne, outfile)			
 	pkl.save_obj(grille_ancienne, "grille")
