@@ -12,6 +12,7 @@ import asyncio
 import signal
 import credentials_helper as creds
 from datetime import datetime
+import text_to_speech
 #Guillaume Dumont, 2020
 
 TOKEN = creds.get_token()
@@ -135,7 +136,22 @@ async def on_message(message):
 			func.print_to_csv(tuple_time)
 			await channel.send("Temps ajouté!")			
 		except ValueError as err:
-			await channel.send("Format non valide, devrait être !commande XXHXXM description")			
+			await channel.send("Format non valide, devrait être !commande XXHXXM description")
+	elif message.content.startswith('!quote'):
+		if(message.author.voice == None):
+			await channel.send("T'es même pas connecté... Git Gud!")
+		else:
+			text = message.content.replace('!quote ', '')
+			audiofile = text_to_speech(text)
+			voice_channel = client.get_channel(message.author.voice.channel.id)
+			voice_client = await voice_channel.connect(reconnect=False)
+			if voice_client != None:
+				audio = discord.FFmpegPCMAudio(audiofile)
+				voice_client.play(audio)
+				while(voice_client.is_playing()):
+					time.sleep(0.25)
+					continue
+				await voice_client.disconnect()
 		
 	#elif message.content.startswith('!disconnect'):
 	#    if(message.author.id is admin):
