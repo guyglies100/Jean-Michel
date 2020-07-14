@@ -142,7 +142,7 @@ async def on_message(message):
 			await channel.send("T'es même pas connecté... Git Gud!")
 		else:
 			text = message.content.replace('!quote ', '')
-			audiofile = text_to_speech(text)
+			audiofile = text_to_speech.generateSpeech(text)
 			voice_channel = client.get_channel(message.author.voice.channel.id)
 			voice_client = await voice_channel.connect(reconnect=False)
 			if voice_client != None:
