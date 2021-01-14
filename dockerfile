@@ -10,6 +10,6 @@ RUN apt-get -y install libopus0
 RUN apt-get -y install opus-tools
 
 RUN pip install -U discord.py[voice]
-RUN pip install scipy asyncio requests azure-cognitiveservices-speech
+RUN pip install scipy asyncio requests
 
 CMD [ "python", "./bot.py" ]
