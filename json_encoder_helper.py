@@ -21,8 +21,7 @@ def decodeJsonPickle(name):
 	else:
 		raise FileNotFoundError("file "+name+".pkl not found")
 
-def replacetoken(token):
+def replace_value(field, value):
 	t = decodeJsonPickle("creds.json")
-	t['token'] = token
+	t[field] = value
 	pkl.save_obj(t, "creds.json")
-

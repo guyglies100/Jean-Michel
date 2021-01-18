@@ -110,7 +110,3 @@ def get_time_to_add_and_desc(msg):
 	if(date == date_with_delta):
 		raise ValueError("Format non valide, devrait être !commande XXHXXM description")
 	return date, date_with_delta, desc
-
-def is_work_member(name):
-	log(cred.get_work_member())
-	return name in cred.get_work_member()
