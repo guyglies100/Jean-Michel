@@ -3,18 +3,20 @@ from datetime import timedelta
 from math import ceil
 
 semester_start = datetime(2021, 1, 11)
+break_week_start = datetime(2021, 3, 1)
 
 def getTimeObj(string):
     return datetime.strptime(string, '%Y-%m-%d %H:%M:%S.%f')
 
 def time_delta_format(timedelta):
     hours_in_a_week = 168 * 60 * 60
-    global semester_start
+    global semester_start, break_week_start
 
     weeks_since_semester_start = ceil((datetime.today().timestamp() - semester_start.timestamp()) / hours_in_a_week)
     hours = timedelta.days * 24 + timedelta.seconds//3600
 
-    return "Heures: " + str(hours) + ", Minutes: " + str((timedelta.seconds//60)%60) + ", Moyenne par semaine: " + str(round(hours/weeks_since_semester_start, 2))
+    is_break_week_started = datetime.today() >= break_week_start
+    return "Heures: " + str(hours) + ", Minutes: " + str((timedelta.seconds//60)%60) + ", Moyenne par semaine: " + str(round(hours/(weeks_since_semester_start - is_break_week_started), 2))
 
 def print_dict(dictionary, weekly):
     print_str = []
