@@ -2,8 +2,8 @@ from datetime import datetime
 from datetime import timedelta
 from math import ceil
 
-semester_start = datetime(2021, 1, 11)
-break_week_start = datetime(2021, 3, 1)
+semester_start = datetime(2021, 9, 2)
+break_week_start = datetime(2021, 10, 25)
 
 def getTimeObj(string):
     return datetime.strptime(string, '%Y-%m-%d %H:%M:%S.%f')
