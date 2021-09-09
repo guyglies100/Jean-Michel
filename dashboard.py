@@ -26,15 +26,15 @@ def print_dict(dictionary, weekly):
             timedelta = weekly[key]
             hours = timedelta.days * 24 + timedelta.seconds//3600
             minutes = (timedelta.seconds//60)%60
-            string += ", Depuis lundi: " + str(hours) + "h" + str(minutes) + "min"
+            string += ", Depuis jeudi: " + str(hours) + "h" + str(minutes) + "min"
         print_str.append(string)
     return print_str
 
 def get_most_recent_sprint_start_weekday():
-    return get_last_monday()
+    return get_last_thursday()
 
-def get_last_wednesday():
-    return get_last_weekday(2)
+def get_last_thursday():
+    return get_last_weekday(3)
 
 def get_last_monday():
     return get_last_weekday(0)
